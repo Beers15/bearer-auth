@@ -1,19 +1,23 @@
 'use strict';
 
 const base64 = require('base-64');
-const { user } = require('../models/index.js');
+const { User } = require('../models');
 
 module.exports = async (req, res, next) => {
+  if(!req.headers.authorization) { 
+    next('No authorization header in POST request');
+  }
 
-  if (!req.headers.authorization) { return _authError(); }
-
-  let basic = req.headers.authorization;
-  let [username, pass] = base64.decode(basic).split(':');
+  let basicHeaderParts = req.headers.authorization.split(' ');
+  let encodedString = basicHeaderParts.pop(); 
+  let decodedString = base64.decode(encodedString); 
+  let [username, password] = decodedString.split(':'); 
 
   try {
-    req.user = await user.authenticateBasic(username, pass);
+    req.user = await User.authenticateBasic(username, password);
     next();
-  } catch (e) {
+  } catch (err) {
+    console.log('Error when decoding Authorization (Basic) header: ', err);
     res.status(403).send('Invalid Login');
   }
 };
