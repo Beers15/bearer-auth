@@ -2,18 +2,18 @@
 
 process.env.SECRET = 'toes';
 
-const middleware = require('../../../src/auth/middleware/bearer.js');
-const { db, users } = require('../../../src/auth/models/index.js');
+const middleware = require('../src/auth/middleware/bearer.js');
+const { db, User } = require('../src/auth/models/index.js');
 const jwt = require('jsonwebtoken');
 
 let userInfo = {
   admin: { username: 'admin', password: 'password' },
 };
 
-// Pre-load our database with fake users
+// Pre-load our database with fake User
 beforeAll(async (done) => {
   await db.sync();
-  await users.create(userInfo.admin);
+  await User.create(userInfo.admin);
   done();
 });
 afterAll(async (done) => {
