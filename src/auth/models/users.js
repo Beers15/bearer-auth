@@ -10,12 +10,8 @@ const userSchema = (sequelize, DataTypes) => {
     token: {
       type: DataTypes.VIRTUAL,
       get() {
-<<<<<<< HEAD
         //Secure the JWT with time expiration option
         return jwt.sign({ username: this.username }, process.env.SECRET, { expiresIn: 60 * 15 } );
-=======
-        return jwt.sign({ username: this.username }, process.env.SECRET);
->>>>>>> e67c676def97381e426239d94635f1f0f4e17e21
       },
     },
   });
@@ -27,19 +23,14 @@ const userSchema = (sequelize, DataTypes) => {
 
   // Basic AUTH: Validating strings (username, password) 
   model.authenticateBasic = async function (username, password) {
-<<<<<<< HEAD
-=======
 
->>>>>>> e67c676def97381e426239d94635f1f0f4e17e21
     const user = await this.findOne({where: { username: username }});
     const valid = await bcrypt.compare(password, user.password);
     if(valid) { 
       return user; 
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> e67c676def97381e426239d94635f1f0f4e17e21
+
     throw new Error('Invalid User');
   };
 
