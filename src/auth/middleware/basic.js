@@ -9,15 +9,22 @@ module.exports = async (req, res, next) => {
   }
 
   let basicHeaderParts = req.headers.authorization.split(' ');
+
+
   let encodedString = basicHeaderParts.pop(); 
   let decodedString = base64.decode(encodedString); 
   let [username, password] = decodedString.split(':'); 
 
   try {
     req.user = await User.authenticateBasic(username, password);
-    next();
+    
+    if(req.user) {
+      res.status(201);
+      next();
+    } else {
+      next('Invalid User');
+    }
   } catch (err) {
-    console.log('Error when decoding Authorization (Basic) header: ', err);
     res.status(403).send('Invalid Login');
   }
 };
