@@ -28,7 +28,7 @@
 
 ## Links to application deployment
 
-  App deployed on Heroku [here]()
+  App deployed on Heroku [here](https://bearer-auth-class07.herokuapp.com/)
 
   Pull req from dev found [here](https://github.com/Beers15/bearer-auth/pull/1)
 
